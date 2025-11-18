@@ -1,23 +1,19 @@
 import requests
-import certifi
 import streamlit as st
 import pandas as pd
 import altair as alt
 
-# Streamlit 標題
 st.title("中央氣象局天氣預報")
 
 # API URL
 url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWA-B980AEA0-9AAB-4E53-8767-C8FAACBE74FB"
 
-# 取得資料（使用 certifi 驗證 SSL）
+# 取得資料（暫時忽略 SSL 驗證）
 try:
-    response = requests.get(url, verify=certifi.where())
-    response.raise_for_status()  # 確認 HTTP 狀態
+    requests.packages.urllib3.disable_warnings()  # 隱藏警告
+    response = requests.get(url, verify=False)
+    response.raise_for_status()
     data = response.json()
-except requests.exceptions.SSLError as e:
-    st.error(f"SSL 驗證失敗: {e}")
-    st.stop()
 except requests.exceptions.RequestException as e:
     st.error(f"無法取得資料: {e}")
     st.stop()
@@ -53,7 +49,7 @@ df = pd.DataFrame([
     for time_range, elements in weather.items()
 ])
 
-# melt 轉長格式，避免 transform_fold 問題
+# melt 轉長格式
 df_long = pd.melt(df, id_vars=['time'], value_vars=['max_temp','min_temp'],
                   var_name='Temperature_Type', value_name='Temperature')
 
