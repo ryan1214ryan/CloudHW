@@ -60,8 +60,8 @@ st.dataframe(df)
 # 折線圖：最高溫 / 最低溫
 st.subheader("Temperature Trend (°C)")
 temp_chart = alt.Chart(df_long).mark_line(point=True).encode(
-    x=alt.X('time:N', title='Time'),
-    y=alt.Y('Temperature:Q', title='°C'),
+    x=alt.X('time:N', title='Time', axis=alt.Axis(labelAngle=-45)),
+    y=alt.Y('Temperature:Q', title='°C', scale=alt.Scale(domain=[10,40])),
     color=alt.Color('Temperature_Type:N', title='Type'),
     tooltip=['time', 'Temperature_Type', 'Temperature']
 ).properties(width=700, height=400)
@@ -70,8 +70,8 @@ st.altair_chart(temp_chart)
 # 柱狀圖：降雨率
 st.subheader("Rain Probability (PoP%)")
 pop_chart = alt.Chart(df).mark_bar(color='skyblue').encode(
-    x=alt.X('time:N', title='Time'),
-    y=alt.Y('pop:Q', title='PoP (%)'),
+    x=alt.X('time:N', title='Time', axis=alt.Axis(labelAngle=-45)),
+    y=alt.Y('pop:Q', title='PoP (%)', scale=alt.Scale(domain=[0,100])),
     tooltip=['time', 'pop']
 ).properties(width=700, height=400)
 st.altair_chart(pop_chart)
