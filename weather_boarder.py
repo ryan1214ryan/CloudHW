@@ -64,7 +64,11 @@ temp_chart = alt.Chart(df_long).mark_line(point=True).encode(
     x=alt.X('time:N', title='Time', axis=alt.Axis(labelAngle=0)),
     y=alt.Y('Temperature:Q', title='°C', scale=alt.Scale(domain=[10,40])),
     color=alt.Color('Temperature_Type:N', title='Type'),
-    tooltip=['time', 'Temperature_Type', 'Temperature']
+    tooltip=[
+    alt.Tooltip('time:N', title='時間'),
+    alt.Tooltip('Temperature_Type:N', title='溫度類型'),
+    alt.Tooltip('Temperature:Q', title='溫度 (°C)')
+    ]
 ).properties(width=1000, height=400)
 st.altair_chart(temp_chart)
 
@@ -73,6 +77,9 @@ st.subheader("Rain Probability (PoP%)")
 pop_chart = alt.Chart(df).mark_bar(color='skyblue').encode(
     x=alt.X('time:N', title='Time', axis=alt.Axis(labelAngle=0)),
     y=alt.Y('pop:Q', title='PoP (%)', scale=alt.Scale(domain=[0,100])),
-    tooltip=['time', 'pop']
+    tooltip=[
+    alt.Tooltip('time:N', title='時間'),
+    alt.Tooltip('pop:Q', title='降雨機率 (%)')
+    ]
 ).properties(width=1000, height=400)
 st.altair_chart(pop_chart)
