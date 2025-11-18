@@ -49,11 +49,9 @@ df = pd.DataFrame([
     for time_range, elements in weather.items()
 ])
 
-df.rename(columns={'pop': '降雨機率', 'max_temp': '最高溫', 'min_temp': '最低溫'}, inplace=True)
-
 # melt 轉長格式
-df_long = pd.melt(df, id_vars=['time'], value_vars=['最高溫','最低溫'],
-                  var_name='溫度類型', value_name='溫度')
+df_long = pd.melt(df, id_vars=['time'], value_vars=['max_temp','min_temp'],
+                  var_name='Temperature_Type', value_name='Temperature')
 
 
 # 顯示表格
